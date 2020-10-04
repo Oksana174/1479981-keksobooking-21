@@ -109,17 +109,17 @@ const createPinAd = function (array) {
 };
 
 // функция блокировки или разблокировки fieldset
-const isDisabled = function (boolean, collection) {
+const setDisableFields = function (isDisabled, collection) {
   for (const element of collection) {
-    element.disabled = boolean;
+    element.disabled = isDisabled;
   }
   return fieldsets;
 };
 
 // функция блокировки страницы
 const disabledState = function () {
-  isDisabled(true, fieldsets);
-  isDisabled(true, mapFilters);
+  setDisableFields(true, fieldsets);
+  setDisableFields(true, mapFilters);
   inputAdress.value = `${LOCATION_X_PIN_MAIN}, ${LOCATION_Y_PIN_MAIN}`;
 };
 
@@ -127,8 +127,8 @@ const disabledState = function () {
 const activeState = function () {
   mapAds.classList.remove(`map--faded`);
   formAd.classList.remove(`ad-form--disabled`);
-  isDisabled(false, fieldsets);
-  isDisabled(false, mapFilters);
+  setDisableFields(false, fieldsets);
+  setDisableFields(false, mapFilters);
   inputAdress.value = `${LOCATION_X_PIN_MAIN + PIN_WIDTH / 2}` + `, ` + `${LOCATION_Y_PIN_MAIN + PIN_HEIGHT}`;
   mapPins.appendChild(fillingInFragment(listAds, createPinAd));
   guestNumber.options[2].selected = true;
@@ -210,7 +210,7 @@ disabledState();
 
 // активация страницы
 mapPinMain.addEventListener(`mousedown`, function (evt) {
-  if (evt.which === 1) {
+  if (evt.button === 0) {
     activeState();
   }
 });
