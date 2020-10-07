@@ -26,7 +26,7 @@
   window.pin = {
     createFragment: fillingInFragment,
     cloneTemplate: createPinAd,
-    pinWidth: PIN_WIDTH,
-    pinHeight: PIN_HEIGHT,
+    width: PIN_WIDTH,
+    height: PIN_HEIGHT,
   };
 })();

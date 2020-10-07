@@ -25,7 +25,7 @@
     formAd.classList.remove(`ad-form--disabled`);
     window.util.setDisable(false, fieldsets);
     window.util.setDisable(false, mapFilters);
-    inputAdress.value = `${LOCATION_X_PIN_MAIN + window.pin.pinWidth / 2}` + `, ` + `${LOCATION_Y_PIN_MAIN + window.pin.pinHeight}`;
+    inputAdress.value = `${LOCATION_X_PIN_MAIN + window.pin.width / 2}` + `, ` + `${LOCATION_Y_PIN_MAIN + window.pin.height}`;
     mapPins.appendChild(window.pin.createFragment(window.data.createArray(NewArray.LENGTH), window.pin.cloneTemplate));
     guestNumber.options[2].selected = true;
   };
@@ -34,6 +34,7 @@
     if (evt.button === 0) {
       activeState();
       mapPinMain.removeEventListener(`mousedown`, mapMousedownHandler);
+      mapPinMain.removeEventListener(`keydown`, mapEnterHandler);
     }
   };
 
@@ -41,6 +42,7 @@
     if (evt.key === `Enter`) {
       activeState();
       mapPinMain.removeEventListener(`keydown`, mapEnterHandler);
+      mapPinMain.removeEventListener(`mousedown`, mapMousedownHandler);
     }
   };
 
