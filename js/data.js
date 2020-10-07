@@ -71,7 +71,6 @@
     return objectAd;
   };
 
-  // функция создания массива из объектов
   const createArrayRandom = function (length) {
     const arrayAds = [];
     for (let i = 0; i < length; i++) {
@@ -81,7 +80,7 @@
   };
 
   window.data = {
-    array: createArrayRandom,
+    createArray: createArrayRandom,
   };
 
 })();

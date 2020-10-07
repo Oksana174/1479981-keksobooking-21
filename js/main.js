@@ -10,24 +10,20 @@ const guestNumber = formAd.querySelector(`#capacity`);
 
 
 // интерактивные элементы формы делаем неактивными
-window.pageState.disabled();
+window.pageState.blockPage();
 
 // активация страницы
-mapPinMain.addEventListener(`mousedown`, function (evt) {
-  window.util.mouseEvent(evt, window.pageState.active);
-});
+mapPinMain.addEventListener(`mousedown`, window.pageState.activatePageMouse);
 
-mapPinMain.addEventListener(`keydown`, function (evt) {
-  window.util.enterEvent(evt, window.pageState.active);
-});
+mapPinMain.addEventListener(`keydown`, window.pageState.activatePageEnter);
 
 // влияние типа жилья на цену
-typeHouse.addEventListener(`change`, window.form.price);
+typeHouse.addEventListener(`change`, window.form.changePrice);
 
 // Поля «Время заезда» и «Время выезда» синхронизированы
-timeIn.addEventListener(`change`, window.form.time);
-timeOut.addEventListener(`change`, window.form.time);
+timeIn.addEventListener(`change`, window.form.changeTime);
+timeOut.addEventListener(`change`, window.form.changeTime);
 
 // Поле «Количество комнат» синхронизировано с полем «Количество мест»
-roomNumber.addEventListener(`change`, window.form.guest);
-guestNumber.addEventListener(`change`, window.form.guest);
+roomNumber.addEventListener(`change`, window.form.changeGuest);
+guestNumber.addEventListener(`change`, window.form.changeGuest);

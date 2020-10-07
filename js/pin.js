@@ -24,7 +24,9 @@
   };
 
   window.pin = {
-    fragment: fillingInFragment,
-    template: createPinAd,
+    createFragment: fillingInFragment,
+    cloneTemplate: createPinAd,
+    pinWidth: PIN_WIDTH,
+    pinHeight: PIN_HEIGHT,
   };
 })();

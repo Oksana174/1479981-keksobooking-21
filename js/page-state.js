@@ -1,7 +1,8 @@
 'use strict';
 (function () {
-  const PIN_WIDTH = 50;
-  const PIN_HEIGHT = 70;
+  const NewArray = {
+    LENGTH: 8,
+  };
   const LOCATION_X_PIN_MAIN = 570;
   const LOCATION_Y_PIN_MAIN = 375;
   const formAd = document.querySelector(`.ad-form`);
@@ -11,26 +12,41 @@
   const mapAds = document.querySelector(`.map`);
   const mapPins = mapAds.querySelector(`.map__pins`);
   const guestNumber = formAd.querySelector(`#capacity`);
+  const mapPinMain = mapAds.querySelector(`.map__pin--main`);
 
   const disabledState = function () {
-    window.util.disable(true, fieldsets);
-    window.util.disable(true, mapFilters);
+    window.util.setDisable(true, fieldsets);
+    window.util.setDisable(true, mapFilters);
     inputAdress.value = `${LOCATION_X_PIN_MAIN}, ${LOCATION_Y_PIN_MAIN}`;
   };
 
-  // функция активации страницы
   const activeState = function () {
     mapAds.classList.remove(`map--faded`);
     formAd.classList.remove(`ad-form--disabled`);
-    window.util.disable(false, fieldsets);
-    window.util.disable(false, mapFilters);
-    inputAdress.value = `${LOCATION_X_PIN_MAIN + PIN_WIDTH / 2}` + `, ` + `${LOCATION_Y_PIN_MAIN + PIN_HEIGHT}`;
-    mapPins.appendChild(window.pin.fragment(window.data.array(8), window.pin.template));
+    window.util.setDisable(false, fieldsets);
+    window.util.setDisable(false, mapFilters);
+    inputAdress.value = `${LOCATION_X_PIN_MAIN + window.pin.pinWidth / 2}` + `, ` + `${LOCATION_Y_PIN_MAIN + window.pin.pinHeight}`;
+    mapPins.appendChild(window.pin.createFragment(window.data.createArray(NewArray.LENGTH), window.pin.cloneTemplate));
     guestNumber.options[2].selected = true;
   };
 
+  const mapMousedownHandler = function (evt) {
+    if (evt.button === 0) {
+      activeState();
+      mapPinMain.removeEventListener(`mousedown`, mapMousedownHandler);
+    }
+  };
+
+  const mapEnterHandler = function (evt) {
+    if (evt.key === `Enter`) {
+      activeState();
+      mapPinMain.removeEventListener(`keydown`, mapEnterHandler);
+    }
+  };
+
   window.pageState = {
-    disabled: disabledState,
-    active: activeState,
+    blockPage: disabledState,
+    activatePageMouse: mapMousedownHandler,
+    activatePageEnter: mapEnterHandler,
   };
 })();

@@ -59,9 +59,9 @@
   };
 
   window.form = {
-    price: onSelectPriceChange,
-    time: onSelectTimeChange,
-    guest: onSelectChange,
+    changePrice: onSelectPriceChange,
+    changeTime: onSelectTimeChange,
+    changeGuest: onSelectChange,
   };
 
 })();
