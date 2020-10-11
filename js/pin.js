@@ -1,17 +1,11 @@
 'use strict';
 
 (function () {
+  const MAIN_PIN_WIDTH = 62;
+  const MAIN_PIN_HEIGHT = 84;
   const PIN_WIDTH = 50;
   const PIN_HEIGHT = 70;
-
-  const fillingInFragment = function (array, element) {
-    const fragment = document.createDocumentFragment();
-    for (let i = 0; i < array.length; i++) {
-      const pinAds = element(array[i]);
-      fragment.appendChild(pinAds);
-    }
-    return fragment;
-  };
+  const MAX_SIMILAR_PIN = 5;
 
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
   const createPinAd = function (array) {
@@ -23,10 +17,22 @@
     return clonePin;
   };
 
+  const mapAds = document.querySelector(`.map`);
+  const mapPins = mapAds.querySelector(`.map__pins`);
+
+  const successHandler = function (array) {
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < MAX_SIMILAR_PIN; i++) {
+      fragment.appendChild(createPinAd(array[i]));
+    }
+    mapPins.appendChild(fragment);
+  };
+
   window.pin = {
-    createFragment: fillingInFragment,
-    cloneTemplate: createPinAd,
+    createFragment: successHandler,
     width: PIN_WIDTH,
     height: PIN_HEIGHT,
+    mainWidth: MAIN_PIN_WIDTH,
+    mainHeight: MAIN_PIN_HEIGHT
   };
 })();
