@@ -8,7 +8,6 @@ const timeOut = formAd.querySelector(`#timeout`);
 const roomNumber = formAd.querySelector(`#room_number`);
 const guestNumber = formAd.querySelector(`#capacity`);
 
-
 // интерактивные элементы формы делаем неактивными
 window.pageState.blockPage();
 
@@ -27,3 +26,4 @@ timeOut.addEventListener(`change`, window.form.changeTime);
 // Поле «Количество комнат» синхронизировано с полем «Количество мест»
 roomNumber.addEventListener(`change`, window.form.changeGuest);
 guestNumber.addEventListener(`change`, window.form.changeGuest);
+

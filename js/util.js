@@ -8,6 +8,6 @@
   };
 
   window.util = {
-    setDisable: setDisableFields,
+    setDisable: setDisableFields
   };
 })();
