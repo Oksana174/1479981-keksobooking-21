@@ -8,7 +8,7 @@
   };
   const TIMEOUT_IN_MS = 10000;
 
-  const errorHandler = function (errorMessage) {
+  const errorDownloadHandler = function (errorMessage) {
     const node = document.createElement(`div`);
     node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: rgba(255,255,255,0.9)`;
     node.style.border = `3px solid rgba(255,0,0,0.8)`;
@@ -58,6 +58,6 @@
 
   window.server = {
     load: loadRequest,
-    error: errorHandler
+    errorHandler: errorDownloadHandler
   };
 })();

@@ -19,6 +19,8 @@
 
   const mapAds = document.querySelector(`.map`);
   const mapPins = mapAds.querySelector(`.map__pins`);
+  const fieldsets = document.querySelectorAll(`fieldset`);
+  const mapFilters = document.querySelector(`.map__filters`);
 
   const successHandler = function (array) {
     const fragment = document.createDocumentFragment();
@@ -26,6 +28,8 @@
       fragment.appendChild(createPinAd(array[i]));
     }
     mapPins.appendChild(fragment);
+    window.util.setDisable(false, mapFilters);
+    window.util.setDisable(false, fieldsets);
   };
 
   window.pin = {

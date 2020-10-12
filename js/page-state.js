@@ -5,7 +5,6 @@
   const inputAdress = formAd.querySelector(`#address`);
   const mapFilters = document.querySelector(`.map__filters`);
   const mapAds = document.querySelector(`.map`);
-  // const mapPins = mapAds.querySelector(`.map__pins`);
   const guestNumber = formAd.querySelector(`#capacity`);
   const mapPinMain = mapAds.querySelector(`.map__pin--main`);
 
@@ -16,12 +15,10 @@
   };
 
   const activeState = function () {
+    window.server.load(window.pin.createFragment, window.server.errorHandler);
     mapAds.classList.remove(`map--faded`);
     formAd.classList.remove(`ad-form--disabled`);
-    window.util.setDisable(false, fieldsets);
-    window.util.setDisable(false, mapFilters);
     inputAdress.value = `${Math.round(mapPinMain.offsetLeft + window.pin.mainWidth / 2)}` + `, ` + `${Math.round(mapPinMain.offsetTop + window.pin.mainHeight)}`;
-    window.server.load(window.pin.createFragment, window.server.error);
     guestNumber.options[2].selected = true;
   };
 
