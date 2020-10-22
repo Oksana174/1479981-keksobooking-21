@@ -3,7 +3,6 @@
 (function () {
   const fieldsets = document.querySelectorAll(`fieldset`);
   const mapFilters = document.querySelector(`.map__filters`);
-  const housingType = window.pin.filter.querySelector(`#housing-type`);
   let serverData;
 
   const successHandler = function (array) {
@@ -18,19 +17,48 @@
     window.util.setDisable(false, fieldsets);
   };
 
+  let newData;
+  const filterAds = function (data) {
+    newData = window.filtration.check(data);
+    window.pin.remove();
+    window.pin.createPins(newData);
+  };
+
   const changeHousingTypeHandler = function (evt) {
     window.filtration.enabled.type = evt.target.value;
-    window.filtration.filter(serverData);
+    filterAds(serverData);
   };
-  housingType.addEventListener(`change`, changeHousingTypeHandler);
+
+  const removeClass = function (element) {
+    const pinActive = window.pin.mapAds.querySelector(`.map__pin--active`);
+    if (pinActive) {
+      pinActive.classList.remove(`map__pin--active`);
+    }
+    element.classList.add(`map__pin--active`);
+  };
 
   const iconPinClickHandler = function (evt) {
     const mapFiltersContainer = window.pin.map.querySelector(`.map__filters-container`);
+    // const allPins = window.pin.mapAds.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    const currentCard = window.pin.map.querySelector(`.map__card`);
+    const currentPin = evt.currentTarget;
+    const targetValue = evt.currentTarget.dataset.value;
+    const index = Number(targetValue);
+
+    if (currentCard && currentCard.dataset.value === targetValue) {
+      return;
+    }
+
     window.card.closed();
-    const targetPins = evt.target;
-    const index = targetPins.firstChild ? targetPins.value : targetPins.parentElement.value;
+    window.card.attribute(index);
+    removeClass(currentPin);
+
     const fragmentPopup = document.createDocumentFragment();
-    fragmentPopup.appendChild(window.card.create(serverData[index]));
+    if (typeof newData === `undefined`) {
+      fragmentPopup.appendChild(window.card.create(serverData[index]));
+    } else {
+      fragmentPopup.appendChild(window.card.create(newData[index]));
+    }
     window.pin.map.insertBefore(fragmentPopup, mapFiltersContainer);
 
     const closePopupButton = window.pin.map.querySelector(`.popup__close`);
@@ -63,5 +91,6 @@
   window.map = {
     loading: successHandler,
     iconClick: iconPinClickHandler,
+    changeHousingType: changeHousingTypeHandler
   };
 })();

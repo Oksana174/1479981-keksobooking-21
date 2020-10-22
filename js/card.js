@@ -10,14 +10,14 @@
 
   const availableFeatures = function (element, array) {
     const featuresElement = element.querySelector(`.popup__features`);
-    const popupFeature = element.querySelectorAll(`li`);
+    while (featuresElement.firstChild) {
+      featuresElement.removeChild(featuresElement.firstChild);
+    }
     for (let m = 0; m < array.offer.features.length; m++) {
-      if (!popupFeature[m].classList.contains(`popup__feature--${array.offer.features[m]}`)) {
-        const feature = document.createElement(`li`);
-        feature.classList.add(`popup__feature`);
-        feature.classList.add(`popup__feature--${array.offer.features[m]}`);
-        featuresElement.appendChild(feature);
-      }
+      const feature = document.createElement(`li`);
+      feature.classList.add(`popup__feature`);
+      feature.classList.add(`popup__feature--${array.offer.features[m]}`);
+      featuresElement.appendChild(feature);
     }
   };
 
@@ -31,6 +31,7 @@
     photosElement.querySelector(`img`).remove();
   };
 
+  let idCard;
   const createCardAd = function (array) {
     const cloneCard = cardTemplate.cloneNode(true);
     cloneCard.querySelector(`.popup__title`).textContent = array.offer.title;
@@ -46,14 +47,19 @@
     cloneCard.querySelector(`.popup__description`).src = array.offer.photos;
     uploadPhotos(cloneCard, array);
     cloneCard.querySelector(`.popup__avatar`).src = array.author.avatar;
+    cloneCard.dataset.value = idCard;
     return cloneCard;
   };
 
   const closePopup = function () {
-    const articles = window.pin.map.querySelector(`article`);
+    const articles = window.pin.map.querySelector(`.map__card`);
     if (articles) {
       window.pin.map.removeChild(articles);
     }
+  };
+
+  const addingAttribute = function (value) {
+    idCard = value;
   };
 
   const isEventEnter = function (evt, action) {
@@ -70,6 +76,7 @@
 
   window.card = {
     create: createCardAd,
+    attribute: addingAttribute,
     closed: closePopup,
     eventEnter: isEventEnter,
     escEvent: isEventEsc,

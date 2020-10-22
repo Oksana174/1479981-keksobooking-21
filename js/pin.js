@@ -13,15 +13,15 @@
   const mapFilters = document.querySelector(`.map__filters`);
 
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-  let idPins = 0;
+  let idPin = 0;
   const createPinAd = function (array) {
     const clonePin = pinTemplate.cloneNode(true);
     clonePin.setAttribute(`style`, `left: ${array.location.x + PIN_WIDTH / 2}px; top: ${array.location.y + PIN_HEIGHT}px`);
     const picturePin = clonePin.querySelector(`img`);
     picturePin.src = array.author.avatar;
     picturePin.alt = array.offer.title;
-    clonePin.value = idPins;
-    idPins++;
+    clonePin.dataset.value = idPin;
+    idPin++;
     clonePin.addEventListener(`click`, window.map.iconClick);
     return clonePin;
   };
@@ -34,8 +34,23 @@
     mapPins.appendChild(fragment);
   };
 
+  const removeElements = function () {
+    const pins = window.pin.mapAds.querySelectorAll(`.map__pin`);
+    const card = window.pin.map.querySelector(`.map__card`);
+    for (let i = 0; i < pins.length; i++) {
+      if (!pins[i].classList.contains(`map__pin--main`)) {
+        pins[i].remove();
+      }
+    }
+    if (card) {
+      card.remove();
+    }
+    idPin = 0;
+  };
+
   window.pin = {
     createPins: groupingPinAd,
+    remove: removeElements,
     width: PIN_WIDTH,
     height: PIN_HEIGHT,
     mainWidth: MAIN_PIN_WIDTH,
@@ -44,6 +59,6 @@
     filter: mapFilters,
     map: mapAds,
     maxSimilar: MAX_SIMILAR_PIN,
-    mapAds: mapPins,
+    mapAds: mapPins
   };
 })();

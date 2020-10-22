@@ -1,4 +1,6 @@
 'use strict';
+
+const housingType = window.pin.filter.querySelector(`#housing-type`);
 // интерактивные элементы формы делаем неактивными
 window.pageState.blockPage();
 
@@ -17,3 +19,5 @@ window.form.checkOutTime.addEventListener(`change`, window.form.changeTime);
 // Поле «Количество комнат» синхронизировано с полем «Количество мест»
 window.form.rooms.addEventListener(`change`, window.form.changeGuest);
 window.form.capacity.addEventListener(`change`, window.form.changeGuest);
+
+housingType.addEventListener(`change`, window.map.changeHousingType);
