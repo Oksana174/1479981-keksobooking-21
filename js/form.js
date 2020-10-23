@@ -62,6 +62,12 @@
     changePrice: onSelectPriceChange,
     changeTime: onSelectTimeChange,
     changeGuest: onSelectChange,
+    ad: formAd,
+    capacity: guestNumber,
+    type: typeHouse,
+    checkInTime: timeIn,
+    checkOutTime: timeOut,
+    rooms: roomNumber
   };
 
 })();

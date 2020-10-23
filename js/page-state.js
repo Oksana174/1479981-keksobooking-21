@@ -1,25 +1,20 @@
 'use strict';
 (function () {
-  const formAd = document.querySelector(`.ad-form`);
-  const fieldsets = formAd.querySelectorAll(`fieldset`);
-  const inputAdress = formAd.querySelector(`#address`);
-  const mapFilters = document.querySelector(`.map__filters`);
-  const mapAds = document.querySelector(`.map`);
-  const guestNumber = formAd.querySelector(`#capacity`);
-  const mapPinMain = mapAds.querySelector(`.map__pin--main`);
+  const inputAdress = window.form.ad.querySelector(`#address`);
+  const mapPinMain = window.pin.map.querySelector(`.map__pin--main`);
 
   const disabledState = function () {
-    window.util.setDisable(true, fieldsets);
-    window.util.setDisable(true, mapFilters);
+    window.util.setDisable(true, window.pin.fieldset);
+    window.util.setDisable(true, window.pin.filter);
     inputAdress.value = `${mapPinMain.offsetLeft}, ${mapPinMain.offsetTop}`;
   };
 
   const activeState = function () {
-    window.server.load(window.pin.createFragment, window.server.errorHandler);
-    mapAds.classList.remove(`map--faded`);
-    formAd.classList.remove(`ad-form--disabled`);
+    window.server.load(window.map.loading, window.server.errorHandler);
+    window.pin.map.classList.remove(`map--faded`);
+    window.form.ad.classList.remove(`ad-form--disabled`);
     inputAdress.value = `${Math.round(mapPinMain.offsetLeft + window.pin.mainWidth / 2)}` + `, ` + `${Math.round(mapPinMain.offsetTop + window.pin.mainHeight)}`;
-    guestNumber.options[2].selected = true;
+    window.form.capacity.options[2].selected = true;
   };
 
   const mapMousedownHandler = function (evt) {

@@ -58,6 +58,6 @@
 
   window.server = {
     load: loadRequest,
-    errorHandler: errorDownloadHandler
+    errorHandler: errorDownloadHandler,
   };
 })();
