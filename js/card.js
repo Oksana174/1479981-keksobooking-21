@@ -9,31 +9,31 @@
   const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
 
   const availableFeatures = function (element, array) {
-    const featuresElement = element.querySelector(`.popup__features`);
-    while (featuresElement.firstChild) {
-      featuresElement.removeChild(featuresElement.firstChild);
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
     }
     for (let m = 0; m < array.offer.features.length; m++) {
       const feature = document.createElement(`li`);
       feature.classList.add(`popup__feature`);
       feature.classList.add(`popup__feature--${array.offer.features[m]}`);
-      featuresElement.appendChild(feature);
+      element.appendChild(feature);
     }
   };
 
   const uploadPhotos = function (element, array) {
-    const photosElement = element.querySelector(`.popup__photos`);
     for (let m = 0; m < array.offer.photos.length; m++) {
-      const clonePhotos = photosElement.querySelector(`img`).cloneNode(false);
+      const clonePhotos = element.querySelector(`img`).cloneNode(false);
       clonePhotos.src = array.offer.photos[m];
-      photosElement.appendChild(clonePhotos);
+      element.appendChild(clonePhotos);
     }
-    photosElement.querySelector(`img`).remove();
+    element.querySelector(`img`).remove();
   };
 
   let idCard;
   const createCardAd = function (array) {
     const cloneCard = cardTemplate.cloneNode(true);
+    const featuresElement = cloneCard.querySelector(`.popup__features`);
+    const photosElement = cloneCard.querySelector(`.popup__photos`);
     cloneCard.querySelector(`.popup__title`).textContent = array.offer.title;
     cloneCard.querySelector(`.popup__text--address`).textContent = array.offer.address;
     cloneCard.querySelector(`.popup__text--price`).textContent =
@@ -42,10 +42,9 @@
     typeHouse[array.offer.type];
     cloneCard.querySelector(`.popup__text--capacity`).textContent = `${array.offer.rooms} комнаты для ${array.offer.guests} гостей`;
     cloneCard.querySelector(`.popup__text--time`).textContent = `Заезд после ${array.offer.checkin}, выезд до ${array.offer.checkout}`;
-    availableFeatures(cloneCard, array);
+    availableFeatures(featuresElement, array);
     cloneCard.querySelector(`.popup__description`).textContent = array.offer.description;
-    cloneCard.querySelector(`.popup__description`).src = array.offer.photos;
-    uploadPhotos(cloneCard, array);
+    uploadPhotos(photosElement, array);
     cloneCard.querySelector(`.popup__avatar`).src = array.author.avatar;
     cloneCard.dataset.value = idCard;
     return cloneCard;

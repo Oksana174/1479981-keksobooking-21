@@ -26,7 +26,30 @@
 
   const changeHousingTypeHandler = function (evt) {
     window.filtration.enabled.type = evt.target.value;
-    filterAds(serverData);
+    window.debounce.time(filterAds(serverData));
+  };
+  const changeHousingPriceHandler = function (evt) {
+    window.filtration.enabled.price = evt.target.value;
+    window.debounce.time(filterAds(serverData));
+  };
+  const changeHousingRoomsHandler = function (evt) {
+    window.filtration.enabled.rooms = evt.target.value;
+    window.debounce.time(filterAds(serverData));
+  };
+  const changeHousingGuestsHandler = function (evt) {
+    window.filtration.enabled.guests = evt.target.value;
+    window.debounce.time(filterAds(serverData));
+  };
+  const clickHousingFeaturesHandler = function (evt) {
+    if (evt.target.className === `map__checkbox visually-hidden`) {
+      const index = window.filtration.enabled.features.indexOf(evt.target.value);
+      if (evt.target.checked) {
+        window.filtration.enabled.features.push(evt.target.value);
+      } else {
+        window.filtration.enabled.features.splice(index, 1);
+      }
+    }
+    window.debounce.time(filterAds(serverData));
   };
 
   const removeClass = function (element) {
@@ -91,6 +114,10 @@
   window.map = {
     loading: successHandler,
     iconClick: iconPinClickHandler,
-    changeHousingType: changeHousingTypeHandler
+    changeHousingType: changeHousingTypeHandler,
+    changePrice: changeHousingPriceHandler,
+    changeRooms: changeHousingRoomsHandler,
+    changeGuests: changeHousingGuestsHandler,
+    changeFeatures: clickHousingFeaturesHandler
   };
 })();
