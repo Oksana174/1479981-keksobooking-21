@@ -24,9 +24,32 @@
     window.pin.createPins(newData);
   };
 
+  const filterDebounced = window.debounce.eliminate(filterAds);
+
+  const onFormDebouncedChange = function () {
+    filterDebounced(serverData);
+  };
   const changeHousingTypeHandler = function (evt) {
     window.filtration.enabled.type = evt.target.value;
-    filterAds(serverData);
+  };
+  const changeHousingPriceHandler = function (evt) {
+    window.filtration.enabled.price = evt.target.value;
+  };
+  const changeHousingRoomsHandler = function (evt) {
+    window.filtration.enabled.rooms = evt.target.value;
+  };
+  const changeHousingGuestsHandler = function (evt) {
+    window.filtration.enabled.guests = evt.target.value;
+  };
+  const clickHousingFeaturesHandler = function (evt) {
+    if (evt.target.className === `map__checkbox visually-hidden`) {
+      const index = window.filtration.enabled.features.indexOf(evt.target.value);
+      if (evt.target.checked) {
+        window.filtration.enabled.features.push(evt.target.value);
+      } else {
+        window.filtration.enabled.features.splice(index, 1);
+      }
+    }
   };
 
   const removeClass = function (element) {
@@ -39,7 +62,6 @@
 
   const iconPinClickHandler = function (evt) {
     const mapFiltersContainer = window.pin.map.querySelector(`.map__filters-container`);
-    // const allPins = window.pin.mapAds.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     const currentCard = window.pin.map.querySelector(`.map__card`);
     const currentPin = evt.currentTarget;
     const targetValue = evt.currentTarget.dataset.value;
@@ -91,6 +113,12 @@
   window.map = {
     loading: successHandler,
     iconClick: iconPinClickHandler,
-    changeHousingType: changeHousingTypeHandler
+    changeHousingType: changeHousingTypeHandler,
+    changePrice: changeHousingPriceHandler,
+    changeRooms: changeHousingRoomsHandler,
+    changeGuests: changeHousingGuestsHandler,
+    changeFeatures: clickHousingFeaturesHandler,
+    changeFormDebounced: onFormDebouncedChange,
+    filterForm: mapFilters
   };
 })();

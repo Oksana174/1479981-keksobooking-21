@@ -1,6 +1,11 @@
 'use strict';
 
 const housingType = window.pin.filter.querySelector(`#housing-type`);
+const housingPrice = window.pin.filter.querySelector(`#housing-price`);
+const housingRooms = window.pin.filter.querySelector(`#housing-rooms`);
+const housingGuests = window.pin.filter.querySelector(`#housing-guests`);
+const housingFeatures = window.pin.filter.querySelector(`#housing-features`);
+
 // интерактивные элементы формы делаем неактивными
 window.pageState.blockPage();
 
@@ -20,4 +25,9 @@ window.form.checkOutTime.addEventListener(`change`, window.form.changeTime);
 window.form.rooms.addEventListener(`change`, window.form.changeGuest);
 window.form.capacity.addEventListener(`change`, window.form.changeGuest);
 
+window.map.filterForm.addEventListener(`change`, window.map.changeFormDebounced);
 housingType.addEventListener(`change`, window.map.changeHousingType);
+housingPrice.addEventListener(`change`, window.map.changePrice);
+housingRooms.addEventListener(`change`, window.map.changeRooms);
+housingGuests.addEventListener(`change`, window.map.changeGuests);
+housingFeatures.addEventListener(`change`, window.map.changeFeatures);

@@ -7,7 +7,6 @@
   const MAP_MAX_Y = 630 - window.pin.mainHeight;
 
   const activatePinDragging = function () {
-
     const setMainPinAddress = function (x, y) {
       window.pageState.adress.value = `${Math.round(x + window.pin.mainWidth / 2)}, ${Math.round(y + window.pin.mainHeight)}`;
     };
