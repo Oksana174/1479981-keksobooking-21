@@ -20,7 +20,7 @@
     NOBODY: 0
   };
 
-  const getPriceFilter = function (item, price) {
+  const checkPriceFilter = function (item, price) {
     switch (item) {
       case `low`:
         return (price < MIN_PRICE_FILTER);
@@ -29,10 +29,10 @@
       case `high`:
         return (price > MAX_PRICE_FILTER);
       default:
-        return true;
+        return item === `any`;
     }
   };
-  const getRoomsFilter = function (item, rooms) {
+  const checkRoomsFilter = function (item, rooms) {
     switch (item) {
       case `1`:
         return (rooms === NumberOfRoom.ONE);
@@ -41,10 +41,10 @@
       case `3`:
         return (rooms === NumberOfRoom.THREE);
       default:
-        return true;
+        return item === `any`;
     }
   };
-  const getGuestsFilter = function (item, guests) {
+  const checkGuestsFilter = function (item, guests) {
     switch (item) {
       case `0`:
         return (guests === NumberOfGuests.NOBODY);
@@ -53,11 +53,11 @@
       case `2`:
         return (guests === NumberOfGuests.TWO);
       default:
-        return true;
+        return item === `any`;
     }
   };
 
-  const getFeaturesFilter = function (item) {
+  const checkFeaturesFilter = function (item) {
     const features = item.offer.features;
     const findFeatures = function (index) {
       return features.indexOf(enabledFilters.features[index]);
@@ -71,9 +71,27 @@
     return true;
   };
 
+  // const enableFilters = function (data) {
+  //   let results = data.filter(function (item) {
+  //     return (item.offer.type === enabledFilters.type || enabledFilters.type === `any`)
+  //     && (checkPriceFilter(enabledFilters.price, item.offer.price) || enabledFilters.price === `any`)
+  //     && (checkRoomsFilter(enabledFilters.rooms, item.offer.rooms) || enabledFilters.rooms === `any`)
+  //     && (checkGuestsFilter(enabledFilters.guests, item.offer.guests) || enabledFilters.guests === `any`)
+  //     && (checkFeaturesFilter(item) || enabledFilters.features.length === 0);
+  //   });
+  //   if (results.length > window.pin.maxSimilar) {
+  //     results = results.slice(0, window.pin.maxSimilar);
+  //   }
+  //   return results;
+  // };
+
   const enableFilters = function (data) {
     let results = data.filter(function (item) {
-      return (item.offer.type === enabledFilters.type || enabledFilters.type === `any`) && (getPriceFilter(enabledFilters.price, item.offer.price) || enabledFilters.price === `any`) && (getRoomsFilter(enabledFilters.rooms, item.offer.rooms) || enabledFilters.rooms === `any`) && (getGuestsFilter(enabledFilters.guests, item.offer.guests) || enabledFilters.guests === `any`) && (getFeaturesFilter(item) || enabledFilters.features === []);
+      return (item.offer.type === enabledFilters.type || enabledFilters.type === `any`)
+      && (checkPriceFilter(enabledFilters.price, item.offer.price))
+      && (checkRoomsFilter(enabledFilters.rooms, item.offer.rooms))
+      && (checkGuestsFilter(enabledFilters.guests, item.offer.guests))
+      && (checkFeaturesFilter(item) || enabledFilters.features.length === 0);
     });
     if (results.length > window.pin.maxSimilar) {
       results = results.slice(0, window.pin.maxSimilar);

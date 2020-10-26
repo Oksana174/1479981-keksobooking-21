@@ -24,21 +24,22 @@
     window.pin.createPins(newData);
   };
 
+  const filterDebounced = window.debounce.eliminate(filterAds);
+
+  const onFormDebouncedChange = function () {
+    filterDebounced(serverData);
+  };
   const changeHousingTypeHandler = function (evt) {
     window.filtration.enabled.type = evt.target.value;
-    window.debounce.time(filterAds(serverData));
   };
   const changeHousingPriceHandler = function (evt) {
     window.filtration.enabled.price = evt.target.value;
-    window.debounce.time(filterAds(serverData));
   };
   const changeHousingRoomsHandler = function (evt) {
     window.filtration.enabled.rooms = evt.target.value;
-    window.debounce.time(filterAds(serverData));
   };
   const changeHousingGuestsHandler = function (evt) {
     window.filtration.enabled.guests = evt.target.value;
-    window.debounce.time(filterAds(serverData));
   };
   const clickHousingFeaturesHandler = function (evt) {
     if (evt.target.className === `map__checkbox visually-hidden`) {
@@ -49,7 +50,6 @@
         window.filtration.enabled.features.splice(index, 1);
       }
     }
-    window.debounce.time(filterAds(serverData));
   };
 
   const removeClass = function (element) {
@@ -62,7 +62,6 @@
 
   const iconPinClickHandler = function (evt) {
     const mapFiltersContainer = window.pin.map.querySelector(`.map__filters-container`);
-    // const allPins = window.pin.mapAds.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     const currentCard = window.pin.map.querySelector(`.map__card`);
     const currentPin = evt.currentTarget;
     const targetValue = evt.currentTarget.dataset.value;
@@ -118,6 +117,8 @@
     changePrice: changeHousingPriceHandler,
     changeRooms: changeHousingRoomsHandler,
     changeGuests: changeHousingGuestsHandler,
-    changeFeatures: clickHousingFeaturesHandler
+    changeFeatures: clickHousingFeaturesHandler,
+    changeFormDebounced: onFormDebouncedChange,
+    filterForm: mapFilters
   };
 })();

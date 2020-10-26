@@ -25,8 +25,9 @@ window.form.checkOutTime.addEventListener(`change`, window.form.changeTime);
 window.form.rooms.addEventListener(`change`, window.form.changeGuest);
 window.form.capacity.addEventListener(`change`, window.form.changeGuest);
 
+window.map.filterForm.addEventListener(`change`, window.map.changeFormDebounced);
 housingType.addEventListener(`change`, window.map.changeHousingType);
 housingPrice.addEventListener(`change`, window.map.changePrice);
 housingRooms.addEventListener(`change`, window.map.changeRooms);
 housingGuests.addEventListener(`change`, window.map.changeGuests);
-housingFeatures.addEventListener(`click`, window.map.changeFeatures);
+housingFeatures.addEventListener(`change`, window.map.changeFeatures);

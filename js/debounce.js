@@ -16,6 +16,6 @@
   };
 
   window.debounce = {
-    time: debounce,
+    eliminate: debounce,
   };
 })();
