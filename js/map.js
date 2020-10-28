@@ -52,11 +52,15 @@
     }
   };
 
-  const removeClass = function (element) {
+  const removeClass = function () {
     const pinActive = window.pin.mapAds.querySelector(`.map__pin--active`);
     if (pinActive) {
       pinActive.classList.remove(`map__pin--active`);
     }
+  };
+
+  const checkClassActive = function (element) {
+    removeClass();
     element.classList.add(`map__pin--active`);
   };
 
@@ -73,7 +77,7 @@
 
     window.card.closed();
     window.card.attribute(index);
-    removeClass(currentPin);
+    checkClassActive(currentPin);
 
     const fragmentPopup = document.createDocumentFragment();
     if (typeof newData === `undefined`) {
@@ -84,25 +88,33 @@
     window.pin.map.insertBefore(fragmentPopup, mapFiltersContainer);
 
     const closePopupButton = window.pin.map.querySelector(`.popup__close`);
+
     const closeClickHandler = function () {
       window.card.closed();
+      removeClass();
       closePopupButton.removeEventListener(`click`, closeClickHandler);
       closePopupButton.removeEventListener(`keydown`, closeEnterHandler);
       document.removeEventListener(`keydown`, closeEscHandler);
     };
 
-    const closeEnterHandler = function (evtKey) {
-      window.card.eventEnter(evtKey, window.card.closed);
-      closePopupButton.removeEventListener(`keydown`, closeEnterHandler);
-      closePopupButton.removeEventListener(`click`, closeClickHandler);
-      document.removeEventListener(`keydown`, closeEscHandler);
+    const closeEnterHandler = function (event) {
+      if (event.key === `Enter`) {
+        window.card.closed();
+        removeClass();
+        closePopupButton.removeEventListener(`keydown`, closeEnterHandler);
+        closePopupButton.removeEventListener(`click`, closeClickHandler);
+        document.removeEventListener(`keydown`, closeEscHandler);
+      }
     };
 
-    const closeEscHandler = function (evtKey) {
-      window.card.escEvent(evtKey, window.card.closed);
-      document.removeEventListener(`keydown`, closeEscHandler);
-      closePopupButton.removeEventListener(`click`, closeClickHandler);
-      closePopupButton.removeEventListener(`keydown`, closeEnterHandler);
+    const closeEscHandler = function (event) {
+      if (event.key === `Escape`) {
+        window.card.closed();
+        removeClass();
+        document.removeEventListener(`keydown`, closeEscHandler);
+        closePopupButton.removeEventListener(`click`, closeClickHandler);
+        closePopupButton.removeEventListener(`keydown`, closeEnterHandler);
+      }
     };
 
     closePopupButton.addEventListener(`click`, closeClickHandler);
@@ -119,6 +131,7 @@
     changeGuests: changeHousingGuestsHandler,
     changeFeatures: clickHousingFeaturesHandler,
     changeFormDebounced: onFormDebouncedChange,
+    removeClassPin: removeClass,
     filterForm: mapFilters
   };
 })();

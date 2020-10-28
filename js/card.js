@@ -34,6 +34,7 @@
     const cloneCard = cardTemplate.cloneNode(true);
     const featuresElement = cloneCard.querySelector(`.popup__features`);
     const photosElement = cloneCard.querySelector(`.popup__photos`);
+    const descriptionElement = cloneCard.querySelector(`.popup__description`);
     cloneCard.querySelector(`.popup__title`).textContent = array.offer.title;
     cloneCard.querySelector(`.popup__text--address`).textContent = array.offer.address;
     cloneCard.querySelector(`.popup__text--price`).textContent =
@@ -42,9 +43,21 @@
     typeHouse[array.offer.type];
     cloneCard.querySelector(`.popup__text--capacity`).textContent = `${array.offer.rooms} комнаты для ${array.offer.guests} гостей`;
     cloneCard.querySelector(`.popup__text--time`).textContent = `Заезд после ${array.offer.checkin}, выезд до ${array.offer.checkout}`;
-    availableFeatures(featuresElement, array);
-    cloneCard.querySelector(`.popup__description`).textContent = array.offer.description;
-    uploadPhotos(photosElement, array);
+    if (array.offer.features.length === 0) {
+      featuresElement.remove();
+    } else {
+      availableFeatures(featuresElement, array);
+    }
+    if (array.offer.description === ``) {
+      descriptionElement.remove();
+    } else {
+      descriptionElement.textContent = array.offer.description;
+    }
+    if (array.offer.photos.length === 0) {
+      photosElement.remove();
+    } else {
+      uploadPhotos(photosElement, array);
+    }
     cloneCard.querySelector(`.popup__avatar`).src = array.author.avatar;
     cloneCard.dataset.value = idCard;
     return cloneCard;
@@ -61,23 +74,9 @@
     idCard = value;
   };
 
-  const isEventEnter = function (evt, action) {
-    if (evt.key === `Enter`) {
-      action();
-    }
-  };
-  const isEventEsc = function (evt, action) {
-    if (evt.key === `Escape`) {
-      evt.preventDefault();
-      action();
-    }
-  };
-
   window.card = {
     create: createCardAd,
     attribute: addingAttribute,
     closed: closePopup,
-    eventEnter: isEventEnter,
-    escEvent: isEventEsc,
   };
 })();
