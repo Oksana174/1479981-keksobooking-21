@@ -7,6 +7,7 @@
     palace: `Дворец`
   };
   const cardTemplate = document.querySelector(`#card`).content.querySelector(`.popup`);
+  let idCard;
 
   const availableFeatures = function (element, array) {
     while (element.firstChild) {
@@ -29,7 +30,6 @@
     element.querySelector(`img`).remove();
   };
 
-  let idCard;
   const createCardAd = function (array) {
     const cloneCard = cardTemplate.cloneNode(true);
     const featuresElement = cloneCard.querySelector(`.popup__features`);
