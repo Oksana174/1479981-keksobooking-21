@@ -20,10 +20,9 @@
   const mapMousedownHandler = function (evt) {
     if (evt.button === 0) {
       activeState();
-      window.dragging.mainPin();
       mapPinMain.removeEventListener(`mousedown`, mapMousedownHandler);
       mapPinMain.removeEventListener(`keydown`, mapEnterHandler);
-
+      window.dragging.mainPin();
     }
   };
 
