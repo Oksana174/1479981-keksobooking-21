@@ -26,10 +26,6 @@
           x: startCoords.x - moveEvt.clientX,
           y: startCoords.y - moveEvt.clientY,
         };
-        // startCoords = {
-        //   x: moveEvt.clientX,
-        //   y: moveEvt.clientY,
-        // };
         const mainPinCoords = {
           x: window.pageState.mainPin.offsetLeft - shift.x,
           y: window.pageState.mainPin.offsetTop - shift.y,
