@@ -74,11 +74,9 @@
     if (currentCard && currentCard.dataset.value === targetValue) {
       return;
     }
-
     window.card.closed();
     window.card.attribute(index);
     checkClassActive(currentPin);
-
     const fragmentPopup = document.createDocumentFragment();
     if (typeof newData === `undefined`) {
       fragmentPopup.appendChild(window.card.create(serverData[index]));
@@ -88,7 +86,6 @@
     window.pin.map.insertBefore(fragmentPopup, mapFiltersContainer);
 
     const closePopupButton = window.pin.map.querySelector(`.popup__close`);
-
     const closeClickHandler = function () {
       window.card.closed();
       removeClass();

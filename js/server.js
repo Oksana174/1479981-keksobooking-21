@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   const URL = `https://21.javascript.pages.academy/keksobooking/data`;
+  const URL_SERVER = `https://21.javascript.pages.academy/keksobooking`;
   const StatusCode = {
     OK: 200,
     NOTFOUND: 404,
@@ -26,7 +27,7 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  const loadRequest = function (onSuccess, onError) {
+  const getXhrData = function (onSuccess, onError) {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
@@ -42,7 +43,7 @@
           onError(`Отсутствует доступ к ресурсу`);
           break;
         default:
-          onError(`Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;`);
+          onError(`Cтатус ответа: ${xhr.status} - ${xhr.statusText};`);
       }
     });
     xhr.addEventListener(`error`, function () {
@@ -52,12 +53,24 @@
       onError(`Запрос не успел выполниться за ${xhr.timeout} мс`);
     });
     xhr.timeout = TIMEOUT_IN_MS;
+    return xhr;
+  };
+
+  const loadRequest = function (onSuccess, onError) {
+    const xhr = getXhrData(onSuccess, onError);
     xhr.open(`GET`, URL);
     xhr.send();
   };
 
+  const uploadReguestData = function (data, onSuccess, onError) {
+    const xhr = getXhrData(onSuccess, onError);
+    xhr.open(`POST`, URL_SERVER);
+    xhr.send(data);
+  };
+
   window.server = {
     load: loadRequest,
+    upload: uploadReguestData,
     errorHandler: errorDownloadHandler,
   };
 })();
