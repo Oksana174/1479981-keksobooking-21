@@ -5,7 +5,7 @@ const housingPrice = window.pin.filter.querySelector(`#housing-price`);
 const housingRooms = window.pin.filter.querySelector(`#housing-rooms`);
 const housingGuests = window.pin.filter.querySelector(`#housing-guests`);
 const housingFeatures = window.pin.filter.querySelector(`#housing-features`);
-const buttonReset = window.form.ad.querySelector(`.ad-form__reset`);
+const buttonReset = window.pageState.ad.querySelector(`.ad-form__reset`);
 
 // интерактивные элементы формы делаем неактивными
 window.pageState.blockPage();
@@ -23,7 +23,7 @@ window.form.checkOutTime.addEventListener(`change`, window.form.changeTime);
 
 // Поле «Количество комнат» синхронизировано с полем «Количество мест»
 window.form.rooms.addEventListener(`change`, window.form.changeGuest);
-window.form.capacity.addEventListener(`change`, window.form.changeGuest);
+window.pageState.capacity.addEventListener(`change`, window.form.changeGuest);
 
 // фильтр объявлений
 window.map.filterForm.addEventListener(`change`, window.map.changeFormDebounced);
@@ -34,11 +34,10 @@ housingGuests.addEventListener(`change`, window.map.changeGuests);
 housingFeatures.addEventListener(`change`, window.map.changeFeatures);
 
 // отправка формы
-window.form.ad.addEventListener(`submit`, function (evt) {
-  window.server.upload(new FormData(window.form.ad), window.form.uploadSuccess, window.form.uploadError);
+window.pageState.ad.addEventListener(`submit`, function (evt) {
+  window.server.upload(new FormData(window.pageState.ad), window.popup.uploadSuccess, window.popup.uploadError);
   evt.preventDefault();
-  window.form.reset();
 });
 
 // очистка формы
-buttonReset.addEventListener(`click`, window.form.reset);
+buttonReset.addEventListener(`click`, window.form.onResetButtonClick);

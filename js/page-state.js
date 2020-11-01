@@ -1,6 +1,8 @@
 'use strict';
 (function () {
-  const inputAdress = window.form.ad.querySelector(`#address`);
+  const formAd = document.querySelector(`.ad-form`);
+  const guestNumber = formAd.querySelector(`#capacity`);
+  const inputAdress = formAd.querySelector(`#address`);
   const mapPinMain = window.pin.map.querySelector(`.map__pin--main`);
 
   const disabledState = function () {
@@ -12,9 +14,9 @@
   const activeState = function () {
     window.server.load(window.map.loading, window.server.errorHandler);
     window.pin.map.classList.remove(`map--faded`);
-    window.form.ad.classList.remove(`ad-form--disabled`);
-    inputAdress.value = `${Math.round(mapPinMain.offsetLeft + window.pin.mainWidth / 2)}` + `, ` + `${Math.round(mapPinMain.offsetTop + window.pin.mainHeight)}`;
-    window.form.capacity.options[2].selected = true;
+    formAd.classList.remove(`ad-form--disabled`);
+    inputAdress.value = `${Math.round(mapPinMain.offsetLeft + window.pin.mainWidth / 2)}, ${Math.round(mapPinMain.offsetTop + window.pin.mainHeight)}`;
+    guestNumber.options[2].selected = true;
   };
 
   const mapMousedownHandler = function (evt) {
@@ -38,7 +40,9 @@
     blockPage: disabledState,
     activatePageMouse: mapMousedownHandler,
     activatePageEnter: mapEnterHandler,
+    ad: formAd,
     mainPin: mapPinMain,
-    adress: inputAdress
+    adress: inputAdress,
+    capacity: guestNumber,
   };
 })();
