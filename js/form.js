@@ -75,13 +75,7 @@
     for (let i = 0; i < filterSelects.length; i++) {
       filterSelects[i].options[0].selected = true;
     }
-    const photoHousing = window.uploadPhotos.housing.querySelector(`img`);
-    if (photoHousing) {
-      photoHousing.remove();
-    }
-    if (window.uploadPhotos.avatar.src !== `img/muffin-grey.svg`) {
-      window.uploadPhotos.avatar.src = `img/muffin-grey.svg`;
-    }
+    window.uploadPhotos.reset();
     window.pin.remove();
     window.pageState.blockPage();
     window.pin.map.classList.add(`map--faded`);

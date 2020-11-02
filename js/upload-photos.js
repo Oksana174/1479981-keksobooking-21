@@ -6,43 +6,49 @@
   const photoPreview = window.pageState.ad.querySelector(`.ad-form__photo`);
   const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 
-  const uploadPhotos = (function (file, element) {
-    const fileName = file.name.toLowerCase();
+  const avatarChangeHandler = function () {
+    window.util.uploadImg(avatarChooser, avatarPreview, FILE_TYPES);
+  };
+
+  const photoFormChangeHandler = function () {
+    const filePhoto = photoChooser.files[0];
+    const fileName = filePhoto.name.toLowerCase();
     const matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
     if (matches) {
       const reader = new FileReader();
       reader.addEventListener(`load`, function () {
-        element.src = reader.result;
+        if (photoPreview.children.length === 0) {
+          const imgElement = document.createElement(`img`);
+          imgElement.style.width = `70px`;
+          imgElement.style.height = `70px`;
+          imgElement.alt = `Фотография жилья`;
+          imgElement.src = reader.result;
+          photoPreview.appendChild(imgElement);
+        } else {
+          photoPreview.firstChild.src = reader.result;
+        }
       });
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(filePhoto);
     }
-  });
-
-  const avatarChangeHandler = function () {
-    const fileAvatar = avatarChooser.files[0];
-    uploadPhotos(fileAvatar, avatarPreview);
   };
 
-  const photoFormChangeHandler = function () {
-    while (photoPreview.firstChild) {
-      photoPreview.removeChild(photoPreview.firstChild);
+  const resetImages = function () {
+    const photoHousing = photoPreview.querySelector(`img`);
+    if (photoHousing) {
+      photoHousing.remove();
     }
-    const imgElement = document.createElement(`img`);
-    imgElement.style.width = `70px`;
-    imgElement.style.height = `70px`;
-    imgElement.alt = `Фотография жилья`;
-    photoPreview.appendChild(imgElement);
-    const filePhoto = photoChooser.files[0];
-    uploadPhotos(filePhoto, imgElement);
+    if (window.uploadPhotos.avatar.src !== `img/muffin-grey.svg`) {
+      window.uploadPhotos.avatar.src = `img/muffin-grey.svg`;
+    }
   };
 
   avatarChooser.addEventListener(`change`, avatarChangeHandler);
   photoChooser.addEventListener(`change`, photoFormChangeHandler);
 
   window.uploadPhotos = {
-    housing: photoPreview,
+    reset: resetImages,
     avatar: avatarPreview
   };
 })();
