@@ -71,20 +71,6 @@
     return true;
   };
 
-  // const enableFilters = function (data) {
-  //   let results = data.filter(function (item) {
-  //     return (item.offer.type === enabledFilters.type || enabledFilters.type === `any`)
-  //     && (checkPriceFilter(enabledFilters.price, item.offer.price) || enabledFilters.price === `any`)
-  //     && (checkRoomsFilter(enabledFilters.rooms, item.offer.rooms) || enabledFilters.rooms === `any`)
-  //     && (checkGuestsFilter(enabledFilters.guests, item.offer.guests) || enabledFilters.guests === `any`)
-  //     && (checkFeaturesFilter(item) || enabledFilters.features.length === 0);
-  //   });
-  //   if (results.length > window.pin.maxSimilar) {
-  //     results = results.slice(0, window.pin.maxSimilar);
-  //   }
-  //   return results;
-  // };
-
   const enableFilters = function (data) {
     let results = data.filter(function (item) {
       return (item.offer.type === enabledFilters.type || enabledFilters.type === `any`)
