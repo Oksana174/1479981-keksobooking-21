@@ -75,14 +75,21 @@
     for (let i = 0; i < filterSelects.length; i++) {
       filterSelects[i].options[0].selected = true;
     }
-    window.dragging.coords.x = window.pageState.mainPin.offsetLeft;
-    window.dragging.coords.y = window.pageState.mainPin.offsetTop;
+    const photoHousing = window.uploadPhotos.housing.querySelector(`img`);
+    if (photoHousing) {
+      photoHousing.remove();
+    }
+    if (window.uploadPhotos.avatar.src !== `img/muffin-grey.svg`) {
+      window.uploadPhotos.avatar.src = `img/muffin-grey.svg`;
+    }
     window.pin.remove();
     window.pageState.blockPage();
     window.pin.map.classList.add(`map--faded`);
     window.pageState.ad.classList.add(`ad-form--disabled`);
     window.pageState.mainPin.addEventListener(`mousedown`, window.pageState.activatePageMouse);
     window.pageState.mainPin.addEventListener(`keydown`, window.pageState.activatePageEnter);
+    window.dragging.coords.x = window.pageState.mainPin.offsetLeft;
+    window.dragging.coords.y = window.pageState.mainPin.offsetTop;
   };
 
   const resetClickButton = function (evt) {
