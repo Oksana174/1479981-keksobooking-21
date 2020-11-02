@@ -101,5 +101,4 @@
     checkOutTime: timeOut,
     rooms: roomNumber
   };
-
 })();
