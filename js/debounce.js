@@ -3,7 +3,7 @@
 const DEBOUNCE_INTERVAL = 500; // ms
 
 const debounce = function (cb) {
-  const lastTimeout = null;
+  let lastTimeout = null;
 
   return function (...parameters) {
     if (lastTimeout) {
@@ -15,6 +15,4 @@ const debounce = function (cb) {
   };
 };
 
-window.debounce = {
-  eliminate: debounce,
-};
+window.debounce = debounce;

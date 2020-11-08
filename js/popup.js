@@ -25,7 +25,7 @@ const onClickSuccessPopup = function () {
   removeSuccessPopup();
 };
 
-const onUploadSuccess = function () {
+const uploadSuccess = function () {
   main.appendChild(successPopup);
   document.addEventListener(`keydown`, onEscSuccessPopup);
   document.addEventListener(`click`, onClickSuccessPopup);
@@ -56,7 +56,7 @@ const onButtonErrorClick = function () {
   removeErrorPopup();
 };
 
-const onUploadError = function (errorMessage) {
+const uploadError = function (errorMessage) {
   main.appendChild(errorPopup);
   errorPopup.querySelector(`.error__message`).textContent = errorMessage;
   errorButton.addEventListener(`keydown`, onEnterButtonError);
@@ -65,6 +65,6 @@ const onUploadError = function (errorMessage) {
 };
 
 window.popup = {
-  uploadSuccess: onUploadSuccess,
-  uploadError: onUploadError,
+  uploadSuccess,
+  uploadError
 };

@@ -1,6 +1,6 @@
 'use strict';
 
-const setDisableFields = function (isDisabled, collection) {
+const setDisable = function (isDisabled, collection) {
   for (const element of collection) {
     element.disabled = isDisabled;
   }
@@ -23,6 +23,6 @@ const uploadPhotos = function (element, link, type) {
 };
 
 window.util = {
-  setDisable: setDisableFields,
-  uploadImg: uploadPhotos
+  setDisable,
+  uploadPhotos
 };

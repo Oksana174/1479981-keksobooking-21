@@ -7,6 +7,7 @@ let enabledFilters = {
   guests: `any`,
   features: []
 };
+
 const MIN_PRICE_FILTER = 10000;
 const MAX_PRICE_FILTER = 50000;
 const NumberOfRoom = {
@@ -71,7 +72,7 @@ const checkFeaturesFilter = function (item) {
   return true;
 };
 
-const enableFilters = function (data) {
+const applyFilters = function (data) {
   let results = data.filter(function (item) {
     return (item.offer.type === enabledFilters.type || enabledFilters.type === `any`)
     && (checkPriceFilter(enabledFilters.price, item.offer.price))
@@ -85,7 +86,34 @@ const enableFilters = function (data) {
   return results;
 };
 
+const onHousingTypeChange = function (evt) {
+  enabledFilters.type = evt.target.value;
+};
+const onPriceChange = function (evt) {
+  enabledFilters.price = evt.target.value;
+};
+const onRoomsChange = function (evt) {
+  enabledFilters.rooms = evt.target.value;
+};
+const onGuestsChange = function (evt) {
+  enabledFilters.guests = evt.target.value;
+};
+const onFeaturesChange = function (evt) {
+  if (evt.target.className === `map__checkbox visually-hidden`) {
+    const index = enabledFilters.features.indexOf(evt.target.value);
+    if (evt.target.checked) {
+      enabledFilters.features.push(evt.target.value);
+    } else {
+      enabledFilters.features.splice(index, 1);
+    }
+  }
+};
+
 window.filtration = {
-  check: enableFilters,
-  enabled: enabledFilters,
+  applyFilters,
+  onHousingTypeChange,
+  onPriceChange,
+  onRoomsChange,
+  onGuestsChange,
+  onFeaturesChange
 };

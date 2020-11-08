@@ -14,23 +14,25 @@ const mapFilters = document.querySelector(`.map__filters`);
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 let idPin = 0;
 let clonePin;
+
 const createPinAd = function (array) {
   clonePin = pinTemplate.cloneNode(true);
-  clonePin.setAttribute(`style`, `left: ${array.location.x + PIN_WIDTH / 2}px; top: ${array.location.y + PIN_HEIGHT}px`);
+  clonePin.style.left = `${array.location.x - PIN_WIDTH / 2}px`;
+  clonePin.style.top = `${array.location.y - PIN_HEIGHT}px`;
   const picturePin = clonePin.querySelector(`img`);
   picturePin.src = array.author.avatar;
   picturePin.alt = array.offer.title;
   clonePin.dataset.value = idPin;
   idPin++;
-  clonePin.addEventListener(`click`, window.map.iconClick);
-  clonePin.addEventListener(`keydown`, openCardEnterHandler);
+  clonePin.addEventListener(`click`, window.map.onIconClick);
+  clonePin.addEventListener(`keydown`, onOpenCardEnter);
   return clonePin;
 };
 
-const openCardEnterHandler = function (evt) {
+const onOpenCardEnter = function (evt) {
   if (evt.key === `Enter`) {
-    window.map.iconClick();
-    clonePin.removeEventListener(`keydown`, openCardEnterHandler);
+    window.map.onIconClick();
+    clonePin.removeEventListener(`keydown`, onOpenCardEnter);
   }
 };
 

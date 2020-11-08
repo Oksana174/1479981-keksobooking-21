@@ -1,34 +1,39 @@
 'use strict';
 
-const typeHouse = window.pageState.ad.querySelector(`#type`);
-const priceNight = window.pageState.ad.querySelector(`#price`);
-const timeIn = window.pageState.ad.querySelector(`#timein`);
-const timeOut = window.pageState.ad.querySelector(`#timeout`);
-const roomNumber = window.pageState.ad.querySelector(`#room_number`);
-const featureCheckboxes = document.querySelectorAll(`input[type=checkbox]`);
-const PinCoordinates = {
-  LEFT: 570,
-  TOP: 375
-};
-const filterSelects = document.querySelectorAll(`.map__filters .map__filter`);
+const BUNGALOW_MIN_PRICE = 0;
+const FLAT_MIN_PRICE = 1000;
+const PALACE_MIN_PRICE = 10000;
+const ONE_ROOMS_INDEX = 0;
+const TWO_ROOMS_INDEX = 1;
+const THREE_ROOMS_INDEX = 2;
+const HUNDRED_ROOMS_INDEX = 3;
+const THREE_GUESTS_INDEX = 0;
+const TWO_GUESTS_INDEX = 1;
+const ONE_GUESTS_INDEX = 2;
+const NO_GUESTS_INDEX = 3;
+const typeHouse = window.pageState.formAd.querySelector(`#type`);
+const timeIn = window.pageState.formAd.querySelector(`#timein`);
+const timeOut = window.pageState.formAd.querySelector(`#timeout`);
+const roomNumber = window.pageState.formAd.querySelector(`#room_number`);
+const filterForm = document.querySelector(`.map__filters`);
 
-const onSelectPriceChange = function () {
+const changeSelectPrice = function () {
   if (typeHouse.value === `bungalow`) {
-    priceNight.setAttribute(`min`, 0);
-    priceNight.setAttribute(`placeholder`, 0);
+    window.pageState.price.setAttribute(`min`, BUNGALOW_MIN_PRICE);
+    window.pageState.price.setAttribute(`placeholder`, BUNGALOW_MIN_PRICE);
   } else if (typeHouse.value === `flat`) {
-    priceNight.setAttribute(`min`, 1000);
-    priceNight.setAttribute(`placeholder`, 1000);
+    window.pageState.price.setAttribute(`min`, FLAT_MIN_PRICE);
+    window.pageState.price.setAttribute(`placeholder`, FLAT_MIN_PRICE);
   } else if (typeHouse.value === `house`) {
-    priceNight.setAttribute(`min`, 5000);
-    priceNight.setAttribute(`placeholder`, 5000);
+    window.pageState.price.setAttribute(`min`, window.pageState.HOUSE_MIN_PRICE);
+    window.pageState.price.setAttribute(`placeholder`, window.pageState.HOUSE_MIN_PRICE);
   } else if (typeHouse.value === `palace`) {
-    priceNight.setAttribute(`min`, 10000);
-    priceNight.setAttribute(`placeholder`, 10000);
+    window.pageState.price.setAttribute(`min`, PALACE_MIN_PRICE);
+    window.pageState.price.setAttribute(`placeholder`, PALACE_MIN_PRICE);
   }
 };
 
-const onSelectTimeChange = function (evt) {
+const changeSelectTime = function (evt) {
   timeIn.value = evt.target.value;
   timeOut.value = evt.target.value;
 };
@@ -36,22 +41,22 @@ const onSelectTimeChange = function (evt) {
 const checkRoomsGuests = function () {
   const selectedRoom = roomNumber.selectedIndex;
   const selectedGuest = window.pageState.capacity.selectedIndex;
-  if (selectedRoom === 0) {
-    return (selectedGuest === 2);
+  if (selectedRoom === ONE_ROOMS_INDEX) {
+    return (selectedGuest === ONE_GUESTS_INDEX);
   }
-  if (selectedRoom === 1) {
-    return ((selectedGuest === 1) || (selectedGuest === 2));
+  if (selectedRoom === TWO_ROOMS_INDEX) {
+    return ((selectedGuest === TWO_GUESTS_INDEX) || (selectedGuest === ONE_GUESTS_INDEX));
   }
-  if (selectedRoom === 2) {
-    return ((selectedGuest === 0) || (selectedGuest === 1) || (selectedGuest === 2));
+  if (selectedRoom === THREE_ROOMS_INDEX) {
+    return ((selectedGuest === THREE_GUESTS_INDEX) || (selectedGuest === TWO_GUESTS_INDEX) || (selectedGuest === ONE_GUESTS_INDEX));
   }
-  if (selectedRoom === 3) {
-    return (selectedGuest === 3);
+  if (selectedRoom === HUNDRED_ROOMS_INDEX) {
+    return (selectedGuest === NO_GUESTS_INDEX);
   }
   return false;
 };
 
-const onSelectChange = function () {
+const changeSelect = function () {
   const isRoomGuestValid = checkRoomsGuests();
   if (!isRoomGuestValid) {
     roomNumber.setCustomValidity(`Некорректное значение, проверти количество гостей`);
@@ -63,27 +68,16 @@ const onSelectChange = function () {
 };
 
 const reset = function () {
-  window.pageState.ad.reset();
-  onSelectPriceChange();
-  featureCheckboxes.forEach(function (element) {
-    if (element.checked) {
-      element.checked = false;
-    }
-  });
-  window.pageState.mainPin.style.left = `${PinCoordinates.LEFT}px`;
-  window.pageState.mainPin.style.top = `${PinCoordinates.TOP}px`;
-  for (let i = 0; i < filterSelects.length; i++) {
-    filterSelects[i].options[0].selected = true;
-  }
-  window.uploadPhotos.reset();
+  window.pageState.formAd.reset();
+  changeSelectPrice();
+  filterForm.reset();
+  window.pageState.mainPin.style.left = `${window.pageState.MAIN_PIN_LEFT}px`;
+  window.pageState.mainPin.style.top = `${window.pageState.MAIN_PIN_TOP}px`;
+  window.uploadPhotos();
   window.pin.remove();
   window.pageState.blockPage();
-  window.pin.map.classList.add(`map--faded`);
-  window.pageState.ad.classList.add(`ad-form--disabled`);
-  window.pageState.mainPin.addEventListener(`mousedown`, window.pageState.activatePageMouse);
-  window.pageState.mainPin.addEventListener(`keydown`, window.pageState.activatePageEnter);
-  window.dragging.coords.x = window.pageState.mainPin.offsetLeft;
-  window.dragging.coords.y = window.pageState.mainPin.offsetTop;
+  window.pageState.mainPin.addEventListener(`mousedown`, window.pageState.onMainPinClick);
+  window.pageState.mainPin.addEventListener(`keydown`, window.pageState.onMainPinEnter);
 };
 
 const resetClickButton = function (evt) {
@@ -92,13 +86,14 @@ const resetClickButton = function (evt) {
 };
 
 window.form = {
-  changePrice: onSelectPriceChange,
-  changeTime: onSelectTimeChange,
-  changeGuest: onSelectChange,
+  onPriceChange: changeSelectPrice,
+  onTimeChange: changeSelectTime,
+  onGuestOrRoomsChange: changeSelect,
   onResetButtonClick: resetClickButton,
   resetFormAndMap: reset,
-  type: typeHouse,
-  checkInTime: timeIn,
-  checkOutTime: timeOut,
-  rooms: roomNumber
+  typeHouse,
+  timeIn,
+  timeOut,
+  roomNumber,
+  filter: filterForm
 };

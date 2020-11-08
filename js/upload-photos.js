@@ -1,13 +1,14 @@
 'use strict';
 
-const avatarChooser = window.pageState.ad.querySelector(`.ad-form__field input[type=file]`);
-const avatarPreview = window.pageState.ad.querySelector(`.ad-form-header__preview img`);
-const photoChooser = window.pageState.ad.querySelector(`.ad-form__upload input[type=file]`);
-const photoPreview = window.pageState.ad.querySelector(`.ad-form__photo`);
+const avatarChooser = window.pageState.formAd.querySelector(`.ad-form__field input[type=file]`);
+const avatarPreview = window.pageState.formAd.querySelector(`.ad-form-header__preview img`);
+const photoChooser = window.pageState.formAd.querySelector(`.ad-form__upload input[type=file]`);
+const photoPreview = window.pageState.formAd.querySelector(`.ad-form__photo`);
 const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
+const AVATAR_DEFAULT = `img/muffin-grey.svg`;
 
 const avatarChangeHandler = function () {
-  window.util.uploadImg(avatarChooser, avatarPreview, FILE_TYPES);
+  window.util.uploadPhotos(avatarChooser, avatarPreview, FILE_TYPES);
 };
 
 const photoFormChangeHandler = function () {
@@ -39,15 +40,13 @@ const resetImages = function () {
   if (photoHousing) {
     photoHousing.remove();
   }
-  if (window.uploadPhotos.avatar.src !== `img/muffin-grey.svg`) {
-    window.uploadPhotos.avatar.src = `img/muffin-grey.svg`;
+  const nameAvatar = avatarPreview.src.split(`/`).pop();
+  if (nameAvatar !== AVATAR_DEFAULT.split(`/`).pop()) {
+    avatarPreview.src = AVATAR_DEFAULT;
   }
 };
 
 avatarChooser.addEventListener(`change`, avatarChangeHandler);
 photoChooser.addEventListener(`change`, photoFormChangeHandler);
 
-window.uploadPhotos = {
-  reset: resetImages,
-  avatar: avatarPreview
-};
+window.uploadPhotos = resetImages;

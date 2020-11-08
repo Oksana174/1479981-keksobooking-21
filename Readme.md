@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Оксана Андрющенко](https://up.htmlacademy.ru/javascript/21/user/1479981).
-* Наставник: [Марина Титова] (https://htmlacademy.ru/profile/id1589449).
+* Наставник: [Марина Титова](https://htmlacademy.ru/profile/id1589449).
 
 ---
 
